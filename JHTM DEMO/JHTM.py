@@ -4,25 +4,29 @@ from pygame.locals import *
 pygame.init()
 
 ################################################################################
-# Chargement du fond
+# Chargement des sprite
 
-spr_background = pygame.image.load("sprites/background.jpg")
+spr_background = pygame.image.load("sprites/background.jpg") 
 spr_perso = pygame.image.load("sprites/tete.png")
 spr_icone = pygame.image.load("sprites/crane.png")
-#Variables
-screen_size = (1920-50,1080-50)
+####Variables
+#Systeme
+screen_size = (1920-50,1080-50) #Taille de la fenetre (-50 parce qu'on veut quand meme appuyer sur quitter)
 fps = 24
-tile_size=64
-tile_number=3
-perso_coo=[500,500]
-perso_mov=[0,0]
-#
-key_down=[115,1073741905]
-key_up=[122,1073741906]
-key_right=[100,1073741903]
-key_left=[113,1073741904]
-key_pause=[27]
-keys=[key_right,key_left,key_up,key_left]
+perso_coo=[500,500] #coordonnée du perso
+perso_mov=[0,0] #Vélocité du perso
+perso_size=100 #Taille du perso
+#Tiles
+margin=5
+tile_size= perso_size+margin
+tile_number=3 #nombre de tile dans une ligne du carée
+####Définition des touche
+key_down=[115,1073741905] # S + Bas 
+key_up=[122,1073741906] # Z + Haut
+key_right=[100,1073741903] # D + droite
+key_left=[113,1073741904] # Q+gauche
+key_pause=[27] #echap
+keys=[key_right,key_left,key_up,key_left] #liste des clé
 #Fonctions
 def pressed(key):
     return event.key in key
@@ -34,11 +38,8 @@ fond=spr_background.convert()
 
 
 # Rafraîchissement de l'écran
-pygame.display.set_caption("JHTM")
-pygame.display.set_icon(spr_background)
-
-## Constantes
-    # Taux de rafraichissement (fps = frame per second)
+pygame.display.set_caption("JHTM") #Nom du projet
+pygame.display.set_icon(spr_background) #Icone du projet
 
 ################################################################################
 # Boucle infinie ...
@@ -64,8 +65,8 @@ while run:
                     ##pygame.mixer.music.unpause()
                     music = True
              #Mouvement
-            perso_mov[0],perso_mov[1]=(pressed(key_right)-pressed(key_left))*tile_size,(pressed(key_down)-pressed(key_up))*tile_size
-            perso_coo[0],perso_coo[1]=perso_coo[0]+perso_mov[0],perso_coo[1]+perso_mov[1]
+            perso_mov[0],perso_mov[1]=(pressed(key_right)-pressed(key_left))*tile_size,(pressed(key_down)-pressed(key_up))*tile_size #mouvement x et mouvement Y
+            perso_coo[0],perso_coo[1]=perso_coo[0]+perso_mov[0],perso_coo[1]+perso_mov[1] #applique les mouvement
             print(pressed(key_right), event.key)
   
     # Instructions
