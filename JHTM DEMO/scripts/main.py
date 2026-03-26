@@ -45,6 +45,7 @@ while run:
     screen.fill((0,0,255))
     screen.blit(pygame.transform.scale(game.player.image,(game.player.size,game.player.size)),game.player.rect)
     # Re-collage des élémentsù
+    screen.blit(spr_grile,(screen_size[0] // 2 - 96, screen_size[1] // 2 - 96))
 
 
     # Rafraichissement
