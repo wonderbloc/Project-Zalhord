@@ -1,13 +1,13 @@
 import pygame
 from pygame.locals import *
 
-
+from grid import*
 from var import *
 from game import obj_game
 pygame.init()
 
 ################################################################################
-
+pth_tiles="sprites/tileset.png"
 #Fonctions
 def pressed(key):
     return event.key in key
@@ -16,8 +16,13 @@ def pressed(key):
 # Ouverture de la fenêtre Pygame et collage du fond
 
 #importer game
-
+level=[
+    [0,1,0],
+    [1,1,1],
+    [0,1,1]
+]
 game=obj_game()
+map = obj_tilemap(level,spr_tiles)
 
 # Rafraîchissement de l'écran
 pygame.display.set_caption("JHTM") #Nom du projet
@@ -44,8 +49,9 @@ while run:
     
     screen.fill((0,0,255))
     screen.blit(pygame.transform.scale(game.player.image,(game.player.size,game.player.size)),game.player.rect)
+    map.draw_map(screen)
     # Re-collage des élémentsù
-    screen.blit(spr_grile,(screen_size[0] // 2 - 96, screen_size[1] // 2 - 96))
+
 
 
     # Rafraichissement
