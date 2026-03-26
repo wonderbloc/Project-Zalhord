@@ -1,5 +1,6 @@
 import pygame
 pygame.init()
+from player import obj_player
 
 ## Chargement des sprite
 spr_background = pygame.image.load("sprites/background.jpg") 
@@ -17,7 +18,7 @@ fps = 24
 #Tiles
 gap=30
 margin=30
-tile_size= 100+margin
+tile_size= 64 + margin
 tile_number=3 #nombre de tile dans une ligne du carée
 ####Définition des touche
 key_down=[115,1073741905] # S + Bas 

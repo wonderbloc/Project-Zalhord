@@ -37,13 +37,13 @@ while run:
              #Mouvement
             game.player.mov[0],game.player.mov[1]=(pressed(key_right)-pressed(key_left))*(tile_size+gap),(pressed(key_down)-pressed(key_up))*(tile_size+gap) #mouvement x et mouvement Y
             game.player.rect.x,game.player.rect.y=game.player.rect.x+game.player.mov[0],game.player.rect.y+game.player.mov[1] #applique les mouvement
-            print(pressed(key_right), event.key)
+            
   
     # Instructions
     # ...............
     
     screen.fill((0,0,255))
-    screen.blit(game.player.image, game.player.rect)
+    screen.blit(pygame.transform.scale(game.player.image,(game.player.size,game.player.size)),game.player.rect)
     # Re-collage des élémentsù
 
 
