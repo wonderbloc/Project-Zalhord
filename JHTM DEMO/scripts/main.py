@@ -22,7 +22,7 @@ level=[
     [0,1,1]
 ]
 game=obj_game()
-map = obj_tilemap(level,spr_tiles)
+map = obj_tilemap(level)
 
 # Rafraîchissement de l'écran
 pygame.display.set_caption("JHTM") #Nom du projet
@@ -49,7 +49,7 @@ while run:
     
     screen.fill((0,0,255))
     screen.blit(pygame.transform.scale(game.player.image,(game.player.size,game.player.size)),game.player.rect)
-    map.draw_map(screen)
+    map.draw_map(screen,[screen_size[0]//2,screen_size[1]//2])
     # Re-collage des élémentsù
 
 
