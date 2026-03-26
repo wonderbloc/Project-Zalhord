@@ -35,7 +35,7 @@ while run:
             if event.key == 27:
                 pass
              #Mouvement
-            game.player.mov[0],game.player.mov[1]=(pressed(key_right)-pressed(key_left))*(tile_size+gap),(pressed(key_down)-pressed(key_up))*(tile_size+gap) #mouvement x et mouvement Y
+            game.player.mov[0],game.player.mov[1]=(pressed(key_right)-pressed(key_left))*(tile_size+gap),(pressed(key_down)-pressed(key_up))*(64) #mouvement x et mouvement Y
             game.player.rect.x,game.player.rect.y=game.player.rect.x+game.player.mov[0],game.player.rect.y+game.player.mov[1] #applique les mouvement
             
   
