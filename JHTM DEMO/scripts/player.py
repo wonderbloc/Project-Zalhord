@@ -1,7 +1,7 @@
 import pygame
 pygame.init()
 
-spr_perso = pygame.image.load("sprites/tete.png")
+from var import spr_perso
 
 
 class obj_player(pygame.sprite.Sprite): #Création du perso

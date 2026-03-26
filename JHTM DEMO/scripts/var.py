@@ -3,7 +3,7 @@ pygame.init()
 
 ## Chargement des sprite
 spr_background = pygame.image.load("sprites/background.jpg") 
-
+spr_perso = pygame.image.load("sprites/tete.png")
 spr_icone = pygame.image.load("sprites/crane.png")
 
 
