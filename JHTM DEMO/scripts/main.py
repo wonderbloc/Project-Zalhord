@@ -48,8 +48,8 @@ while run:
     # ...............
     
     screen.fill((0,0,255))
+    map.draw_map(screen,[screen_size[0]//2-(map.map_w//2),screen_size[1]//2-(map.map_h//2)])
     screen.blit(pygame.transform.scale(game.player.image,(game.player.size,game.player.size)),game.player.rect)
-    map.draw_map(screen,[screen_size[0]//2,screen_size[1]//2])
     # Re-collage des élémentsù
 
 

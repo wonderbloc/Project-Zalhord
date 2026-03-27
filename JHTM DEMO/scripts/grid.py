@@ -13,6 +13,7 @@ class obj_grid(pygame.sprite.Sprite):
     def __init__(self, image, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(image).convert_alpha()
+        self.image = pygame.transform.scale(self.image,(64,64))
         # Manual load in: self.image = pygame.image.load(image)
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = x, y
@@ -53,5 +54,5 @@ class obj_tilemap():
             # Move to next row
             y += 1
             # Store the size of the tile map
-        self.map_w, self.map_h = x * self.tile_size, y * self.tile_size
+        self.map_w, self.map_h = x * (self.tile_size+self.tile_gap), y * (self.tile_size+self.tile_gap)
         return tiles

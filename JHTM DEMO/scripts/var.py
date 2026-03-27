@@ -11,7 +11,7 @@ spr_icone = pygame.image.load("sprites/crane.png")
 
 ####Variables
 #Fenetre
-screen_size = (1920-50,1080-50) #Taille de la fenetre (-50 parce qu'on veut quand meme appuyer sur quitter)
+screen_size = (1920,1080) #Taille de la fenetre (-50 parce qu'on veut quand meme appuyer sur quitter)
 screen = pygame.display.set_mode(screen_size)
 fps = 24
 #Tiles
