@@ -3,7 +3,6 @@ pygame.init()
 
 ## Chargement des sprite
 spr_background = pygame.image.load("sprites/background.jpg") 
-spr_tiles= pygame.image.load("sprites/tileset.png")
 spr_icone = pygame.image.load("sprites/crane.png")
 
 
@@ -11,7 +10,7 @@ spr_icone = pygame.image.load("sprites/crane.png")
 
 ####Variables
 #Fenetre
-screen_size = (1920,1080) #Taille de la fenetre (-50 parce qu'on veut quand meme appuyer sur quitter)
+screen_size = (1920//2,1080//2) #Taille de la fenetre (-50 parce qu'on veut quand meme appuyer sur quitter)
 screen = pygame.display.set_mode(screen_size)
 fps = 24
 #Tiles

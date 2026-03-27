@@ -7,7 +7,6 @@ from game import obj_game
 pygame.init()
 
 ################################################################################
-pth_tiles="sprites/tileset.png"
 #Fonctions
 def pressed(key):
     return event.key in key
@@ -17,12 +16,14 @@ def pressed(key):
 
 #importer game
 level=[
-    [0,1,0],
+    [1,1,0],
     [1,1,1],
     [0,1,1]
 ]
 game=obj_game()
 map = obj_tilemap(level)
+map_pos = [screen_size[0]//2-(map.map_w//2),screen_size[1]//2-(map.map_h//2)]
+map.self_start_x,map.self_start_y=map_pos[0], map_pos[1]
 
 # Rafraîchissement de l'écran
 pygame.display.set_caption("JHTM") #Nom du projet
@@ -40,17 +41,21 @@ while run:
             if event.key == 27:
                 pass
              #Mouvement
-            game.player.mov[0],game.player.mov[1]=(pressed(key_right)-pressed(key_left))*(tile_size+gap),(pressed(key_down)-pressed(key_up))*(64) #mouvement x et mouvement Y
-            game.player.rect.x,game.player.rect.y=game.player.rect.x+game.player.mov[0],game.player.rect.y+game.player.mov[1] #applique les mouvement
+            game.player.mov[0],game.player.mov[1]=(pressed(key_right)-pressed(key_left))*(tile_size+gap),(pressed(key_down)-pressed(key_up)) #mouvement x et mouvement Y
+            game.player.pos=[game.player.pos[0]+game.player.mov[0],game.player.pos[1]+game.player.mov[1]] #applique les mouvement
+
             
   
     # Instructions
     # ...............
     
     screen.fill((0,0,255))
-    map.draw_map(screen,[screen_size[0]//2-(map.map_w//2),screen_size[1]//2-(map.map_h//2)])
+    map.start_x,map.start_y= map_pos[0], map_pos[1]
+    map.draw_map(screen)
+    game.player.rect = map.select_tile((0,1))
     screen.blit(pygame.transform.scale(game.player.image,(game.player.size,game.player.size)),game.player.rect)
-    # Re-collage des élémentsù
+
+    # Re-collage des éléments
 
 
 
