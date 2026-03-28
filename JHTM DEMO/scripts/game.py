@@ -7,6 +7,8 @@ from grid import *
 
 class obj_game():
     def __init__(self,size,init_pos):
+        self.level =level_1
+        self.start=level_1_start
         self.screen_size=size
         self.player = obj_player(init_pos)
-        self.map = obj_tilemap(level_1,level_1_start,self.screen_size)
+        self.map = obj_tilemap(self.level,self.start,self.screen_size)
