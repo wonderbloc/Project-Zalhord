@@ -9,21 +9,21 @@ from game import obj_game
 pygame.init()
 
 ################################################################################
-#Fonctions
-def pressed(key):   ####renvoie une touche préssée
-    return event.key in key
-
-def clamp(value,max_value,min_value): ####habitude de gamemaker (trouver sur internet)
-    max(min(value, max_value), min_value)
-
-
-# Ouverture de la fenêtre Pygame et collage du fond
-start_pos=[]
 #importer game
 
 game=obj_game(screen_size,(0,2)) ##Load une instance du jeu
 
 game=obj_game(screen_size,game.map.start_pos) ##corrige la position du joueur
+#Fonctions
+def pressed(key):   ####renvoie une touche préssée
+    return event.key in key
+
+
+
+
+# Ouverture de la fenêtre Pygame et collage du fond
+start_pos=[]
+
 
 # Rafraîchissement de l'écran
 pygame.display.set_caption("JHTM") #Nom du projet
@@ -39,8 +39,7 @@ while run:
             run = False
         if event.type == KEYDOWN:
             if event.key == 27:
-                game.map.select_tile((1,1)).id = "wall"
-
+                pass
 
              #Mouvement
             game.player.mov[0],game.player.mov[1]=(pressed(key_right)-pressed(key_left)),(pressed(key_down)-pressed(key_up)) #mouvement x et mouvement Y
