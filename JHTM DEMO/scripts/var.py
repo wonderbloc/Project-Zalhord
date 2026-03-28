@@ -1,23 +1,25 @@
 import pygame
+from math import cos
 pygame.init()
 
 ## Chargement des sprite
 spr_background = pygame.image.load("sprites/background.jpg") 
 spr_icone = pygame.image.load("sprites/crane.png")
+angle=0
+        
 
-
-
+def jiggle(image,pos,size,angle,mult):
+    rotate_sprite= pygame.transform.rotate(image,-cos(angle)*mult)
+    center = rotate_sprite.get_rect(center=(pos[0]+size//2,pos[1]+size//2))
+    return rotate_sprite, center
 
 ####Variables
 #Fenetre
 screen_size = (1920//2,1080//2) #Taille de la fenetre (-50 parce qu'on veut quand meme appuyer sur quitter)
-screen = pygame.display.set_mode(screen_size)
+screen = pygame.display.set_mode(screen_size, pygame.RESIZABLE)
 fps = 24
 #Tiles
-gap=30
-margin=30
-tile_size= 64 + margin
-tile_number=3 #nombre de tile dans une ligne du carée
+next_tile=[]
 ####Définition des touche
 key_down=[115,1073741905] # S + Bas 
 key_up=[122,1073741906] # Z + Haut
