@@ -39,7 +39,7 @@ while run:
             run = False
         if event.type == KEYDOWN:
             if event.key == 27:
-                pass
+                game.map.select_tile((1,1)).id = "wall"
 
 
              #Mouvement
@@ -60,7 +60,7 @@ while run:
     # Instructions
     # ...............
 
-    screen.fill((0,0,255))
+    screen.blit(pygame.transform.scale(spr_background,screen_size))
     
 
     game.map.draw_map(screen) ##dessine la map sur l'ecran
