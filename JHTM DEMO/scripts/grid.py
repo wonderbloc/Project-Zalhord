@@ -1,9 +1,9 @@
 import pygame
 from var import *
 
-spr_path = pygame.image.load("sprites/normal_tile.png").convert_alpha()
-spr_glass = pygame.image.load("sprites/glass_tile.png").convert_alpha()
-spr_placeholder = pygame.image.load("sprites/crane.png").convert_alpha()
+spr_path = pygame.image.load("../sprites/normal_tile.png").convert_alpha()
+spr_glass = pygame.image.load("../sprites/glass_tile.png").convert_alpha()
+spr_placeholder = pygame.image.load("../sprites/crane.png").convert_alpha()
 class obj_tile(pygame.sprite.Sprite):
     def __init__(self, id, x, y):
         pygame.sprite.Sprite.__init__(self)

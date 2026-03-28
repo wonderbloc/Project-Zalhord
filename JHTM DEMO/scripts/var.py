@@ -3,8 +3,8 @@ from math import cos
 pygame.init()
 
 ## Chargement des sprite
-spr_background = pygame.image.load("sprites/background.jpg") 
-spr_icone = pygame.image.load("sprites/crane.png")
+spr_background = pygame.image.load("../sprites/background.jpg") 
+spr_icone = pygame.image.load("../sprites/crane.png")
 
 angle=0
         

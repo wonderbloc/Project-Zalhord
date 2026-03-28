@@ -3,7 +3,7 @@ pygame.init()
 
 from var import *
 
-spr_perso = pygame.image.load("sprites/tete.png")
+spr_perso = pygame.image.load("../sprites/tete.png")
 
 class obj_player(pygame.sprite.Sprite): #Création du perso
     def __init__(self,init_pos): #Les variable du perso
