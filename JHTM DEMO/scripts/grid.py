@@ -11,8 +11,6 @@ class obj_tile(pygame.sprite.Sprite):
         self.size = 100
         if self.id == "path":
             self.image = spr_path
-        elif self.id == "glass":
-            self.image = spr_glass
         elif self.id == "wall":
             self.image = spr_path
 
@@ -21,23 +19,27 @@ class obj_tile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = x, y
 
-    def draw(self, surface):
-        surface.blit(self.image, (self.rect.x, self.rect.y))
+    def draw(self, surface,angle):
+        sprite=jiggle(self.image,self.rect,self.size,angle,5)
+        surface.blit(sprite[0], sprite[1])
  
 class obj_tilemap():
     def __init__(self, mapping,start,window_size):
         self.start_pos=start
         self.tile_gap = 120
         self.window_size=window_size
+        self.angle=0
+        self.level = mapping[::]
         #self.start_x, self.start_y = 0,0
         self.pos= [0,0]
-        self.tiles = self.load_tiles(mapping)
+        self.tiles = self.load_tiles(self.level)
         self.map_table = []
+        self.create_map_table()
 
     def draw_map(self, surface):
         for tile in self.tiles:
             if tile.id != "wall":
-                tile.draw(surface)
+                tile.draw(surface,self.angle)
 
     
 
@@ -56,8 +58,6 @@ class obj_tilemap():
                             tiles.append(obj_tile("wall",self.pos[0]+ x * (self.tile_gap), self.pos[1]+y * (self.tile_gap)))
                         elif tile == 1:
                             tiles.append(obj_tile("path", self.pos[0] + x * (self.tile_gap),self.pos[1] + y * (self.tile_gap)))
-                        elif tile == 2:
-                            tiles.append(obj_tile("glass", self.pos[0] + x * (self.tile_gap),self.pos[1] + y * (self.tile_gap)))
                     x += 1
 
                 # Move to next row
@@ -66,17 +66,17 @@ class obj_tilemap():
             self.map_w, self.map_h =self.pos[0] + x * self.tile_gap,self.pos[1] + y * self.tile_gap
             if i==0:
                 self.pos = [(self.window_size[0]//2)-(self.map_w//2),(self.window_size[1]//2)-(self.map_h//2)]
-
+        
+        
         return tiles
     
+    def create_map_table(self):
+        for i in range(0, len(self.tiles), len(self.map)):
+            line = self.tiles[i:i+len(self.map)]
+            self.map_table.append(line)
     
 
         
             
     def select_tile(self, pos):
-        
-        
-        for i in range(0, len(self.tiles), len(self.map)):
-            line = self.tiles[i:i+len(self.map)]
-            self.map_table.append(line)
         return self.map_table[min(pos[1],len(self.map_table)-1)][min(pos[0],len(self.map_table[-1])-1)]
