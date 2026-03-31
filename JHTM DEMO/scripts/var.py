@@ -3,10 +3,9 @@ from math import cos
 pygame.init()
 
 ## Chargement des sprite
-spr_background = pygame.image.load("../sprites/background.jpg") 
+spr_background = pygame.image.load("../sprites/kinger.gif") 
 spr_icone = pygame.image.load("../sprites/crane.png")
 
-angle=0
         
 
 def jiggle(image,pos,size,angle,mult):
@@ -16,7 +15,7 @@ def jiggle(image,pos,size,angle,mult):
 
 ####Variables
 #Fenetre
-screen_size = (1920//2,1080//2) #Taille de la fenetre (-50 parce qu'on veut quand meme appuyer sur quitter)
+screen_size = (1920//1.5,1080//1.5) #Taille de la fenetre (-50 parce qu'on veut quand meme appuyer sur quitter)
 screen = pygame.display.set_mode(screen_size, pygame.RESIZABLE)
 fps = 24
 #Tiles

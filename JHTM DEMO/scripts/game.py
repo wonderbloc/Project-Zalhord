@@ -6,8 +6,8 @@ from grid import *
 
 
 class obj_game():
-    def __init__(self,size,init_pos):
-        self.level =level_1
+    def __init__(self,size,level,init_pos):
+        self.level =level
         self.start=level_1_start
         self.screen_size=size
         self.player = obj_player(init_pos)
