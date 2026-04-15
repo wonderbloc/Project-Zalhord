@@ -4,7 +4,7 @@ pygame.init()
 
 from var import *
 
-spr_perso = pygame.image.load("../sprites/tete.png").convert_alpha()
+spr_perso = pygame.image.load("../sprites/player.png").convert_alpha()
 spr_heart= pygame.image.load("../sprites/coeur.jpeg").convert_alpha()
 
 class obj_heart(pygame.sprite.Sprite):
@@ -17,22 +17,23 @@ class obj_heart(pygame.sprite.Sprite):
         self.pos = [0,0]
         
     def draw_heart(self,surface,value):
-        self.angle=(self.angle+0.05)%6.82
+        
+            self.angle=(self.angle+0.05)%6.82
 
-        for i in range(value):
-            heart_sprite=jiggle(pygame.transform.scale(self.image,(self.size,self.size)),(screen_size[0]-(i+1)*(self.size+self.margin),self.margin),self.size,self.angle,-5) ##Mouvement balancier du joueur
-            surface.blit(heart_sprite[0],heart_sprite[1])
+            for i in range(value):
+                heart_sprite=jiggle(pygame.transform.scale(self.image,(self.size,self.size)),(screen_size[0]-(i+1)*(self.size+self.margin),self.margin),self.size,self.angle,-5) ##Mouvement balancier du joueur
+                surface.blit(heart_sprite[0],heart_sprite[1])
 
 class obj_player(pygame.sprite.Sprite): #Création du perso
     def __init__(self): #Les variable du perso
-        super().__init__ #Permet de relier un sprite plus tard
+        super().__init__() #Permet de relier un sprite plus tard
         self.health = 3 #PV du perso
         self.mov=[0,0]  #Vélocité du perso [x,y]
         self.pos=(0,0)
         self.invicible_time=0
         self.angle=0
         self.amplitude = 15
-        self.size= 64 #Taille du perso
+        self.size= 96 #Taille du perso
         self.image= spr_perso #relie le sprite
         self.rect =pygame.transform.scale(self.image,(self.size,self.size)).get_rect()
         

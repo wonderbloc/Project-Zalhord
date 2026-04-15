@@ -6,31 +6,28 @@ from math import *
 spr_background_MainMenu= pygame.image.load("../sprites/planet.jpg")
 spr_icone = pygame.image.load("../sprites/logo.png")
 spr_LogoJeu = pygame.image.load("../sprites/title.png")
-spr_PublicitéMensongère = pygame.image.load("../sprites/image_publicitaire.png")
-spr_MenuPause = pygame.image.load("../sprites/menu_pause.png")
-spr_vide = pygame.image.load("../sprites/vide.png")
-spr_Pause = pygame.image.load("../sprites/light-background.jpg")
-spr_Altego = pygame.image.load("../sprites/altego.png")
-spr_level1 = pygame.image.load("../sprites/level1234.png")
-spr_level2 = pygame.image.load("../sprites/level2.png")
-spr_background_final_boss = pygame.image.load("../sprites/fond écran png.png")
 
-game_name="Project Zahlord"
+
+
+game_name="Project Zalhord"
 
 
 
 ####Variables
 #Fenetre
+wait= 30
 mult=1
+dark_screen=0
 screen_size = (1920,1080) #Taille de la fenetre (-50 parce qu'on veut quand meme appuyer sur quitter)
 screen = pygame.Surface(screen_size)
 window_size= (screen_size[0]*mult,screen_size[1]*mult)
-window= pygame.display.set_mode(window_size)
-pygame.display.set_caption(game_name) #Nom du projet
-pygame.display.set_icon(spr_icone) #Icone du projet
+
+screen_launching= pygame.display.set_mode((480,1))
+ #Icone du projet
 fps = 24
 is_paused = False
-
+flip = [False,False]
+etat = "menu"
 
 #Tiles
 next_tile=[]
@@ -50,20 +47,44 @@ for i in keys_list:
         keys.append(j)
 
 
+def change_flip(table):
+    global flip
+    if table[0] == True:
+        flip[0] = not(flip[0])
+    if table[1] == True:
+        flip[1] = not(flip[1])
 
+def hide_screen(n):
+    global dark_screen
+    dark_screen = n
+    print("Yay",n)
 
 def jiggle(image,pos,size,angle,mult):
-    rotate_sprite= pygame.transform.rotate(image,-cos(angle)*mult)
-    center = rotate_sprite.get_rect(center=(pos[0]+size//2,pos[1]+size//2))
+    rotate_sprite= pygame.transform.rotate(image,cos(angle)*mult)
+    if type(size) == int:
+        center = rotate_sprite.get_rect(center=(pos[0]+size//2,pos[1]+size//2))
+    else:
+        center = rotate_sprite.get_rect(center=(pos[0]+size[0]//2,pos[1]+size[1]//2))
     return rotate_sprite, center
 
+def rotate(image,pos,size,angle):
+    rotate_sprite= pygame.transform.rotate(image,angle)
+    if type(size) == int:
+        center = rotate_sprite.get_rect(center=(pos[0]+size//2,pos[1]+size//2))
+    else:
+        center = rotate_sprite.get_rect(center=(pos[0]+size[0]//2,pos[1]+size[1]//2))
+    return rotate_sprite, center
 
-def distance(x1,y1,x2,y2):
-    return sqrt((x2-x1)**2 + (y2-y1)**2)
+def distance(pos1,pos2):
+    return ((pos2[0]-pos1[0])**2+(pos2[1]-pos1[1])**2)**0.5
 
-def vector(x1,y1,x2,y2):
-    return [x2-x1,y2-y1]
+def vector_norm(pos1,pos2,norm):
+    return [norm*(pos2[0]-pos1[0]/distance(pos1,pos2)) , norm*(pos2[1]-pos1[1]/distance(pos1,pos2))]
 
-def vector_normal(x1,y1,x2,y2,strenght):
-    norm = distance(x1,y1,x2,y2)
-    return [(x2-x1//norm)*strenght,(y2-y1//norm)*strenght]
+
+
+def get_angle(vector):
+    a=(0,1)
+    b=vector
+    b_norm = (b[0]**2+b[1]**2)**(0.5)
+    return (acos(sum([i * j for (i, j) in zip(a, b)])/b_norm)* (180 / 3.141592))

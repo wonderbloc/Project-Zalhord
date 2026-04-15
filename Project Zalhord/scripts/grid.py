@@ -17,7 +17,8 @@ class obj_tile(pygame.sprite.Sprite):
         elif self.id == "mc_path":
             self.image = spr_craft
         # Manual load in: self.image = pygame.image.load(image)
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_rect(center=(self.size//2,self.size//2))
+        
         self.rect.x, self.rect.y = x, y
 
     def draw(self, surface,angle):
