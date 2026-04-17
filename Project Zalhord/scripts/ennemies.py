@@ -5,6 +5,7 @@ spr_cd = pygame.image.load("../sprites/ennemies/cd.png")
 spr_maraca = pygame.image.load("../sprites/ennemies/maraca.png")
 spr_guitar = pygame.image.load("../sprites/ennemies/guitar.png")
 spr_triangle = pygame.image.load("../sprites/ennemies/triangle.png")
+spr_tambourin = pygame.image.load("../sprites/ennemies/tambourin.png")
 spr_radio = pygame.image.load("../sprites/ennemies/radio.png")
 spr_mirror = pygame.image.load("../sprites/ennemies/symetrie_cd.png")
 spr_blind = pygame.image.load("../sprites/ennemies/blind_cd.png")
@@ -14,7 +15,7 @@ spr_blind = pygame.image.load("../sprites/ennemies/blind_cd.png")
 class obj_ennemy(pygame.sprite.Sprite): #Création du perso
     def __init__(self): #Les variable du perso
         super().__init__() #Permet de relier un sprite plus tard
-        self.id = "stay" #PV du perso
+        self.id = "rusher" #PV du perso
         self.actif = True
         self.waiting = True
         self.grav = 0
@@ -27,13 +28,15 @@ class obj_ennemy(pygame.sprite.Sprite): #Création du perso
         self.reverse = False
         self.damage = True
         self.flip = (False,False)
-        self.tiles = [0,0]
+        
+
         
         
     def draw_ennemy(self,surface):
-        launcher = ["rusher", "return"]
+        launcher = ["rusher", "return","bounce"]
         cd_list = ["mirror","blind"]
         cd_size = 80
+        demi_rect=32
         
         
         if self.waiting == False:
@@ -46,9 +49,9 @@ class obj_ennemy(pygame.sprite.Sprite): #Création du perso
                 self.image = pygame.transform.scale(spr_guitar,(64,128))
                 
                 self.mov[1]+= self.grav 
-                self.angle = 135 - self.mov[1]
+                self.angle = 135 - self.mov[1]*sign(self.mov[0])
             elif self.id == "return":
-                if self.life_time < self.break_time:
+                if self.life_time < wait + self.break_time:
                     
                     self.image = pygame.transform.scale(spr_triangle,(96,96))
                     self.angle = get_angle(self.mov) -180
@@ -58,13 +61,19 @@ class obj_ennemy(pygame.sprite.Sprite): #Création du perso
                     self.reverse = True
                     self.image = pygame.transform.scale(spr_triangle,(96,96))
                     self.angle = (self.angle + (self.mov[0]**2+self.mov[1]**2)**(0.5))%360
+            elif self.id == "bounce":
+                self.image = pygame.transform.scale(spr_tambourin,(96,96))
+                self.angle += self.mov[1]
+                if self.rect.y <=0 or self.rect.y+96 >= screen_size[1]:
+                    self.mov[1] *= -1
             elif self.id == "stay":
-                self.image = spr_radio
-                if self.life_time < self.break_time:
-                    self.actif = False
+                self.image = pygame.transform.scale(spr_radio,(96,96))
+                self.angle = cos(self.life_time)*25
+                if wait + self.life_time >  self.break_time:
+                    self.actif=False
             elif self.id in cd_list:
                 self.damage = False
-                middle = (screen_size[0]//2-32,screen_size[1]//2-32)
+                middle = (screen_size[0]//2-demi_rect,screen_size[1]//2-demi_rect)
                 speed = 0.1
                 
                 
@@ -76,15 +85,18 @@ class obj_ennemy(pygame.sprite.Sprite): #Création du perso
                     
                     if self.life_time < wait-12:
                     
-                        pygame.draw.line(surface,(128,255,190),((self.rect.x+32)*self.flip[0],(self.rect.y+32)*self.flip[1]),(self.rect.x + screen_size[0]*int(not(self.flip[0]))+32,self.rect.y +screen_size[1]*int(not(self.flip[1]))+32),3)
+                        pygame.draw.line(surface,(128,255,190),((self.rect.x+demi_rect)*self.flip[0],(self.rect.y+demi_rect)*self.flip[1]),(self.rect.x + screen_size[0]*int(not(self.flip[0]))+demi_rect,self.rect.y +screen_size[1]*int(not(self.flip[1]))+demi_rect),3)
                     elif self.life_time < wait:
-                        pygame.draw.line(surface,(255,0,0),((self.rect.x+32)*self.flip[0],(self.rect.y+32)*self.flip[1]),(self.rect.x + screen_size[0]*int(not(self.flip[0]))+32,self.rect.y +screen_size[1]*int(not(self.flip[1]))+32),3)
+                        pygame.draw.line(surface,(255,(self.life_time%2)*255,0),((self.rect.x+demi_rect)*self.flip[0],(self.rect.y+demi_rect)*self.flip[1]),(self.rect.x + screen_size[0]*int(not(self.flip[0]))+demi_rect,self.rect.y +screen_size[1]*int(not(self.flip[1]))+demi_rect),3)
                     else:
                         change_flip(self.flip)
                         self.actif = False
                 if self.id == "blind":
                     self.image = pygame.transform.scale(spr_blind,(80,80))
-                    if self.life_time > wait:
+                    if self.life_time < wait:
+                        pygame.draw.arc(surface,(128,190,255),pygame.Rect((self.rect.x-16,self.rect.y-16),(96,96)),3.141592*self.life_time/wait,100)
+                    else:
+                        obs[0]=255
                         self.actif = False
             
 
@@ -95,13 +107,13 @@ class obj_ennemy(pygame.sprite.Sprite): #Création du perso
                 pygame.draw.line(surface,(255,(self.life_time%2)*255,0),(self.rect.x + cd_size//2,self.rect.y + cd_size//2),(self.rect.x + (self.mov[0]*100) + cd_size//2,self.rect.y + (self.mov[1]*100) + cd_size//2),3)
             
             elif self.id == "lober":
-                y,x=self.rect.y+32,self.rect.x+32
+                y,x=self.rect.y+demi_rect,self.rect.x+demi_rect
                 y_mov,x_mov=self.mov[1]*(2**(0.5)),self.mov[0]*(2**(0.5))
                 for i in range(1,10):
-                    x+= x_mov*1.414
+                    x+= x_mov + demi_rect*sign(self.mov[0])
                     y+= y_mov
                     y_mov+=7*i
-                    pygame.draw.circle(surface,(255,(self.life_time%2)*255,0),(x,y),3)
+                    pygame.draw.circle(surface,(255,(self.life_time%2)*255,0),(x,y),4)
             elif self.id in cd_list:
                 self.waiting = False
 
@@ -111,7 +123,9 @@ class obj_ennemy(pygame.sprite.Sprite): #Création du perso
         
         self.life_time+=1
         
-        if self.rect.x < 0 or self.rect.x > screen_size[0] or self.rect.y < 0 or self.rect.y > screen_size[1]:
+        if self.rect.x+64 < 0 or self.rect.x > screen_size[0]: 
+            self.actif = False
+        elif (self.rect.y+64 < 0 or self.rect.y > screen_size[1]) and self.id != "bounce":
             self.actif = False
 
         sprite = rotate(self.image,self.rect.topleft,64,self.angle)

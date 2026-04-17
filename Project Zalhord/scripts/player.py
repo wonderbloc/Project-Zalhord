@@ -33,9 +33,9 @@ class obj_player(pygame.sprite.Sprite): #Création du perso
         self.invicible_time=0
         self.angle=0
         self.amplitude = 15
-        self.size= 96 #Taille du perso
+        self.size= 80 #Taille du perso
         self.image= spr_perso #relie le sprite
-        self.rect =pygame.transform.scale(self.image,(self.size,self.size)).get_rect()
+        self.rect = pygame.Rect((0, 0), (32, 32))
         
         self.rect.x = 100
         self.rect.y=100
@@ -48,9 +48,10 @@ class obj_player(pygame.sprite.Sprite): #Création du perso
         self.invicible_time = max(0,self.invicible_time-1)
         if cos(self.invicible_time) < 0:
             player_sprite[0].set_alpha(255-self.invicible_time*3)
-            return surface.blit(player_sprite[0], player_sprite[1]) #Affiche le joueur
+            surface.blit(player_sprite[0], player_sprite[1]) #Affiche le joueur
+
         else:
             player_sprite[0].set_alpha(255)
-            return surface.blit(player_sprite[0], player_sprite[1]) #Affiche le joueur
+            surface.blit(player_sprite[0], player_sprite[1]) #Affiche le joueur
     
     

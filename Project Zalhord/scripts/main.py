@@ -5,7 +5,8 @@ Tutoriel pour le joueur et comprendre les Class: https://www.youtube.com/watch?v
 Tutoriel utiliser comme base pour les tiles :https://www.youtube.com/watch?v=37phHwLtaFg
 Formule pour avoir l'angle du vecteur : https://miniwebtool.com/fr/calculateur-angle-entre-vecteurs/
 Calculer le produit scalaire python sans l'angle: https://www.delftstack.com/fr/howto/python/python-dot-product/
-Chat GPT a été utilisé pour comprendre certain message d'erreur , Chat GPT n'a ni était utilisé pour généré du code ni était utilisé pour généré d'image.
+Sprite original de la guitar :https://www.megavoxels.com/learn/how-to-make-a-pixel-art-guitar/
+Chat GPT a été utilisé pour comprendre certain message d'erreur ou pour comprendre sous quel angle résoudre certain probleme , Chat GPT n'a ni était utilisé pour généré du code ni était utilisé pour généré d'image.
 
 """
 
@@ -91,6 +92,7 @@ def toggle_pause():
 def quit_game():
     global run
     run = False
+    
 
 
 
@@ -106,7 +108,6 @@ def quit_game():
 # Rafraîchissement de l'écran
 pygame.display.set_caption(game_name) #Nom du projet
 pygame.display.set_icon(spr_icone) #Icone du projet
-
 
 ################################################################################
 
@@ -129,6 +130,7 @@ while run:
             for bouton in buttons:
                 bouton.interact()
         if event.type == KEYDOWN :
+        
 
             if pressed(zoom_keys) and int(max(0.25,min(mult + ((pressed(key_plus) - pressed(key_minus))/4),1,25))*4) != int(mult*4):
                 mult= max(0.25,min(mult + ((pressed(key_plus) - pressed(key_minus))/4),1.25))
@@ -159,8 +161,6 @@ while run:
                 if event.key == 27 :
                     toggle_pause()
                 
-                
-    
     
     if etat == "level":
         music=False
@@ -182,6 +182,7 @@ while run:
         is_paused = False
         flip[0] = False
         flip[1] = False
+        obs[0]=0
         if music == False:
             pygame.mixer.music.load("../musics/hip_shop.mp3")
             pygame.mixer.music.play(-1)
@@ -200,6 +201,11 @@ while run:
                     obj_button(spr_b_level_3,(50,370+320),(480,270), lambda: change_state("level",2))]
     
     screen=pygame.transform.flip(screen,flip[0],flip[1])
+    filtre = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
+    filtre.fill((0, 0, 0, obs[0]))
+    screen.blit(filtre)
+    obs[0]=max(0,obs[0]-obs[1])
+
     draw_buttons(screen,mult)
     if etat == "level":
         game.player.heart.draw_heart(screen,game.player.health)

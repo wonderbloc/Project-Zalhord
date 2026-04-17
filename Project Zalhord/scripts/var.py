@@ -17,11 +17,10 @@ game_name="Project Zalhord"
 #Fenetre
 wait= 30
 mult=1
-dark_screen=0
 screen_size = (1920,1080) #Taille de la fenetre (-50 parce qu'on veut quand meme appuyer sur quitter)
 screen = pygame.Surface(screen_size)
 window_size= (screen_size[0]*mult,screen_size[1]*mult)
-
+obs=[0,1]
 screen_launching= pygame.display.set_mode((480,1))
  #Icone du projet
 fps = 24
@@ -29,8 +28,7 @@ is_paused = False
 flip = [False,False]
 etat = "menu"
 
-#Tiles
-next_tile=[]
+
 ####Définition des touche
 key_down=[115,1073741905] # S + Bas 
 key_up=[122,1073741906] # Z + Haut
@@ -54,10 +52,12 @@ def change_flip(table):
     if table[1] == True:
         flip[1] = not(flip[1])
 
-def hide_screen(n):
-    global dark_screen
-    dark_screen = n
-    print("Yay",n)
+
+def sign(n):
+    if n !=0:
+        return n/abs(n)
+    else:
+        return 0
 
 def jiggle(image,pos,size,angle,mult):
     rotate_sprite= pygame.transform.rotate(image,cos(angle)*mult)
@@ -79,7 +79,7 @@ def distance(pos1,pos2):
     return ((pos2[0]-pos1[0])**2+(pos2[1]-pos1[1])**2)**0.5
 
 def vector_norm(pos1,pos2,norm):
-    return [norm*(pos2[0]-pos1[0]/distance(pos1,pos2)) , norm*(pos2[1]-pos1[1]/distance(pos1,pos2))]
+    return [norm*((pos2[0]-pos1[0])/distance(pos1,pos2)) , norm*((pos2[1]-pos1[1])/distance(pos1,pos2))]
 
 
 

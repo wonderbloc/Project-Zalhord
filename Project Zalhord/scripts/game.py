@@ -26,6 +26,7 @@ class obj_game():
     def reset_game(self):
         self.player.pos = self.level.start
         self.player.health = 3
+        self.player.invicible_time = 0
         self.ennemies_list = []
         self.ennemies_list = deepcopy(self.level.ennemies)
         self.ennemies =[]
@@ -40,20 +41,49 @@ class obj_game():
                         if cle == "id":
                             self.ennemies[-1].id = self.ennemies_list[i][cle]
                         if cle == "pos":
-                            self.ennemies[-1].rect.topleft = self.ennemies_list[i][cle]
+                            if self.ennemies_list[i][cle][0]>= 0 and self.ennemies_list[i][cle][1]>= 0 :
+                                self.ennemies[-1].rect.topleft = self.ennemies_list[i][cle]
+                            elif self.ennemies_list[i][cle][0] <= 0 and self.ennemies_list[i][cle][1] <= 0:
+                                self.ennemies[-1].rect.y = screen_size[1] + self.ennemies_list[i][cle][1]-80
+                                self.ennemies[-1].rect.x = screen_size[0] + self.ennemies_list[i][cle][0]-80
+                            elif self.ennemies_list[i][cle][0]>= 0:
+                                self.ennemies[-1].rect.x = self.ennemies_list[i][cle][0]
+                                self.ennemies[-1].rect.y = screen_size[1] + self.ennemies_list[i][cle][1]-80
+                            else:
+                                self.ennemies[-1].rect.y = self.ennemies_list[i][cle][1]
+                                self.ennemies[-1].rect.x = screen_size[0] + self.ennemies_list[i][cle][0]-80
+                               
+                            
+                        if cle == "x":
+                            if self.ennemies_list[i][cle]>= 0:
+                                self.ennemies[-1].rect.x = self.ennemies_list[i][cle]
+                            else:
+                                self.ennemies[-1].rect.x = screen_size[0] + self.ennemies_list[i][cle]-80
+                        if cle == "y":
+                            if self.ennemies_list[i][cle]>= 0:
+                                self.ennemies[-1].rect.y = self.ennemies_list[i][cle]
+                            else:
+                                self.ennemies[-1].rect.y = screen_size[1] + self.ennemies_list[i][cle]-80
                         if cle == "tile":
-                            self.ennemies[-1].rect.topleft = self.map.select_tile(self.ennemies_list[i][cle]).rect.topleft
+                            self.ennemies[-1].rect.x, self.ennemies[-1].rect.y = self.map.select_tile(self.ennemies_list[i][cle]).rect.x  + ((self.map.select_tile(self.ennemies_list[i][cle])).size-64)//2, self.map.select_tile(self.ennemies_list[i][cle]).rect.y  + ((self.map.select_tile(self.ennemies_list[i][cle])).size-64)//2
+                        if cle == "row":
+                            self.ennemies[-1].rect.x = self.map.select_tile([self.ennemies_list[i][cle],0]).rect.x  + ((self.map.select_tile([self.ennemies_list[i][cle],0])).size-64)//2
+                        if cle == "collumn":
+                            self.ennemies[-1].rect.y = self.map.select_tile([0,self.ennemies_list[i][cle]]).rect.y  + (((self.map.select_tile([0,self.ennemies_list[i][cle]]))).size-64)//2
                         if cle == "mov":
                             self.ennemies[-1].mov = self.ennemies_list[i][cle]
                         if cle == "break":
                             self.ennemies[-1].break_time = self.ennemies_list[i][cle]
                         if cle == "flip":
                             self.ennemies[-1].flip = self.ennemies_list[i][cle]
+                        
                     self.ennemies_list[i]=0
 
         self.ennemies_list = [i for i in self.ennemies_list if i != 0]
 
         self.timer += 1
+
+        print((self.timer/fps)/(2.16667/4))
 
         for i in range(len(self.ennemies)):
             if self.ennemies[i] !=0:
